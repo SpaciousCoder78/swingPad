@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.BufferedWriter;
 import java.io.PrintWriter;
@@ -12,50 +13,73 @@ public class Main {
     }
 }
 
-class app extends JFrame  {
-    JTextArea t1;
-    JButton b;
+class app   {
+
     public app(){
-        t1 = new JTextArea(20,30);
-        b= new JButton("Save File");
-        add (t1);
-        add (b);
+        JFrame x = new JFrame("swingPad");
+        JTextArea textArea = new JTextArea(45,150);
+
+// Add the text area to the center of the layout
+        x.add(textArea, BorderLayout.CENTER);
+
+        ActionListener ax = new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                app newobj = new app();
+            }
+        };
 
         ActionListener al = new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                String body = t1.getText();
+                String body = textArea.getText();
                 filesaver fs = new filesaver(body);
             }
         };
 
-        b.addActionListener(al);
 
-        setLayout(new FlowLayout());
-        setVisible(true);
-        setSize(400,400);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        JMenuBar menuBar = new JMenuBar();
+        JMenu fileMenu = new JMenu("File");
+        JMenu info = new JMenu("Info");
+        menuBar.add(fileMenu);
+
+        JMenuItem saveMenuItem = new JMenuItem("Save File");
+        JMenuItem newMenuItem = new JMenuItem("New File");
+        fileMenu.add(newMenuItem);
+        fileMenu.add(saveMenuItem);
+        x.setJMenuBar(menuBar);
+        saveMenuItem.addActionListener(al);
+        newMenuItem.addActionListener(ax);
+        x.setLayout(new FlowLayout());
+
+// Create a text area
+
+
+        x.setVisible(true);
+        x.setSize(1280,720);
+        x.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 }
 
 class filesaver {
-    String body;
+    //String body;
     JFrame frame;
 
     public filesaver(String body) {
-        this.body = body;
-        frame = new JFrame();
+        //this.body = body;
+        frame = new JFrame("swingPad");
 
         JLabel l2= new JLabel("Enter the file name: ");
         JTextField t3 = new JTextField(20);
         JButton b= new JButton("Save file");
         frame.setLayout(new FlowLayout());
         frame.setVisible(true);
+        frame.setPreferredSize(new Dimension(400, 400));
+        frame.pack();
         frame.setSize(400,400);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         b.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 String filepath=t3.getText();
-                try {
+                try (FileOutputStream fos = new FileOutputStream(filepath)) {
                     FileWriter fw = new FileWriter(filepath, true);
                     BufferedWriter bw = new BufferedWriter(fw);
                     PrintWriter pw = new PrintWriter(bw);
@@ -70,6 +94,8 @@ class filesaver {
                 }
             }
         });
+
+        frame.pack();
         frame.add(l2);
         frame.add(t3);
         frame.add(b);
