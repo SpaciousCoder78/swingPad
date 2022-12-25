@@ -37,3 +37,7 @@ Once you click save, youll see the text file with the content in it in the same 
 
 ![image](https://user-images.githubusercontent.com/88923986/209100548-186eb1a6-ac6b-40a5-8f17-fe8bf645c0b4.png)
 
+If you want to open a text file (feature introduced in v1.3), just click on file and then open file which will open a file chooser. Select the text file you want to open and hit enter
+
+![image](https://user-images.githubusercontent.com/88923986/209464172-c73b7bbf-b4a6-4324-acc8-5f7b12caeca4.png)
+
